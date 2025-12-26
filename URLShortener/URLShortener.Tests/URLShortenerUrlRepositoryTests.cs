@@ -13,7 +13,7 @@ namespace URLShortener.Tests
             // Arrange
             using var context = StaticMethods.CreateContext();
             var repository = new UrlRepository(context);
-            var url = StaticMethods.CreateUrl("https://example.com", "exmpl");
+            var url = StaticMethods.CreateUrl(0, "https://example.com", "exmpl");
 
             // Act
             var addedUrl = await repository.AddAsync(url);
@@ -30,7 +30,7 @@ namespace URLShortener.Tests
             // Arrange
             using var context = StaticMethods.CreateContext();
             var repository = new UrlRepository(context);
-            var url = StaticMethods.CreateUrl("https://example.com", "exmpl");
+            var url = StaticMethods.CreateUrl(0, "https://example.com", "exmpl");
             url = await repository.AddAsync(url);
 
             // Act
@@ -59,7 +59,7 @@ namespace URLShortener.Tests
             // Arrange
             using var context = StaticMethods.CreateContext();
             var repository = new UrlRepository(context);
-            var url = StaticMethods.CreateUrl("https://example.com", "exmpl");
+            var url = StaticMethods.CreateUrl(0, "https://example.com", "exmpl");
             url = await repository.AddAsync(url);
 
             // Act
@@ -87,7 +87,7 @@ namespace URLShortener.Tests
             // Arrange
             using var context = StaticMethods.CreateContext();
             var repository = new UrlRepository(context);
-            var url = StaticMethods.CreateUrl("https://example.com", "exmpl");
+            var url = StaticMethods.CreateUrl(0, "https://example.com", "exmpl");
             url = await repository.AddAsync(url);
 
             // Act
@@ -105,7 +105,7 @@ namespace URLShortener.Tests
             // Arrange
             using var context = StaticMethods.CreateContext();
             var repository = new UrlRepository(context);
-            var url = StaticMethods.CreateUrl("https://example.com", "exmpl");
+            var url = StaticMethods.CreateUrl(0, "https://example.com", "exmpl");
             url = await repository.AddAsync(url);
             url.Id = 2;
 
@@ -120,8 +120,8 @@ namespace URLShortener.Tests
             using var context = StaticMethods.CreateContext();
             var repository = new UrlRepository(context);
             var user = StaticMethods.CreateUser();
-            var url1 = StaticMethods.CreateUrl("https://example1.com", "exmpl1", user);
-            var url2 = StaticMethods.CreateUrl("https://example2.com", "exmpl2", user);
+            var url1 = StaticMethods.CreateUrl(0, "https://example1.com", "exmpl1", user);
+            var url2 = StaticMethods.CreateUrl(0, "https://example2.com", "exmpl2", user);
             await repository.AddAsync(url1);
             await repository.AddAsync(url2);
 
@@ -142,7 +142,7 @@ namespace URLShortener.Tests
             var user = StaticMethods.CreateUser();
             for (int i = 1; i <= 10; i++)
             {
-                var url = StaticMethods.CreateUrl($"https://example{i}.com", $"exmpl{i}", user);
+                var url = StaticMethods.CreateUrl(0, $"https://example{i}.com", $"exmpl{i}", user);
                 await repository.AddAsync(url);
             }
 

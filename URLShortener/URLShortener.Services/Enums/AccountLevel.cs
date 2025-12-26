@@ -1,6 +1,6 @@
 ﻿namespace URLShortener.Services.Enums
 {
-    public enum AccountType
+    public enum AccountLevel
     {
         None = 0,
         Admin = 1,

@@ -28,6 +28,7 @@ namespace URLShortener.Tests
             return context;
         }
 
+
         public static User CreateUser(int id = 1, string username = "testuser", string password = "password", int accountTypeId = 1, string creatorNickName = "nickname")
         {
             return new User
@@ -36,13 +37,13 @@ namespace URLShortener.Tests
                 Username = username,
                 PasswordHash = password,
                 NickName = creatorNickName,
-                AccountTypeId = accountTypeId
+                AccountTypeId = accountTypeId,
             };
         }
 
-        public static Url CreateUrl(string originalUrl, string shortCode, User? user = null)
+        public static Url CreateUrl(int id = 0, string originalUrl = "testUrl", string shortCode = "testShort", User? user = null)
         {
-            return new Url
+            return new Url(id)
             {
                 OriginalURL = originalUrl,
                 ShortenedURL = shortCode,

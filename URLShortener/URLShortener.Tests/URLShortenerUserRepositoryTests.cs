@@ -19,8 +19,8 @@ namespace URLShortener.Tests
             using var context = StaticMethods.CreateContext();
             var repository = new UrlRepository(context);
             var user = StaticMethods.CreateUser();
-            var url1 = StaticMethods.CreateUrl("https://duplicate.com", "dup1", user);
-            var url2 = StaticMethods.CreateUrl("https://duplicate.com", "dup2", user);
+            var url1 = StaticMethods.CreateUrl(0, "https://duplicate.com", "dup1", user);
+            var url2 = StaticMethods.CreateUrl(0, "https://duplicate.com", "dup2", user);
 
             // Act
             await repository.AddAsync(url1);
