@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using URLShortener.Services.Models;
 
-namespace URLShortener.Tests
+namespace URLShortener.Services.Interfaces
 {
-    internal class URLShortenerServiceTests
+    public interface IUserService : IService<UserModel>
     {
     }
 }

@@ -13,6 +13,8 @@ namespace URLShortener.Services.Database.Entities
 
         public string PasswordHash { get; set; } = null!;
 
+        public string NickName { get; set; } = "Anonym";
+
         [ForeignKey("AccountType")]
         public int AccountTypeId { get; set; }
 

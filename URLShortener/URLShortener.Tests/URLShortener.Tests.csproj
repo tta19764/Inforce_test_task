@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\URLShortener.Database\URLShortener.Services.Database.csproj" />
+    <ProjectReference Include="..\URLShortener.Services\URLShortener.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
