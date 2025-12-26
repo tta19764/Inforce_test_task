@@ -3,7 +3,7 @@ using Shouldly;
 using URLShortener.Services.Database.Entities;
 using URLShortener.Services.Database.Repositories;
 
-namespace URLShortener.Tests
+namespace URLShortener.Tests.Repositories
 {
     public class URLShortenerUrlRepositoryTests
     {

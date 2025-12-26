@@ -4,5 +4,6 @@ namespace URLShortener.Services.Database.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
+        Task<User?> GetUserByLoginAsync(string login);
     }
 }

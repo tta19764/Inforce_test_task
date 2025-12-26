@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using URLShortener.Services.Interfaces;
 using URLShortener.Services.Services;
 
-namespace URLShortener.Tests
+namespace URLShortener.Tests.Services
 {
     public class URLShortenerUrlShorteningServiceTests
     {

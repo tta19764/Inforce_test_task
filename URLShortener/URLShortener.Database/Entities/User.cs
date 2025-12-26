@@ -8,6 +8,10 @@ namespace URLShortener.Services.Database.Entities
 
         public string PasswordHash { get; set; } = null!;
 
+        public string? RefreshToken { get; set; }
+
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+
         public string NickName { get; set; } = "Anonym";
 
         [ForeignKey("AccountType")]

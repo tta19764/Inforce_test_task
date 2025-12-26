@@ -9,9 +9,7 @@ namespace URLShortener.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<TokenResponseDto?> LoginAsync(UserDto request, CancellationToken cancellationToken = default);
-        Task<TokenResponseDto?> RefreshTokensAsync(RefreshTokenRequestDto request, CancellationToken cancellationToken = default);
-
-        Task<bool> LogoutAsync(LogoutRequestDto logoutRequestDto, CancellationToken cancellationToken = default);
+        Task<TokenResponseDto?> LoginAsync(UserDto request);
+        Task<TokenResponseDto?> RefreshTokensAsync(RefreshTokenRequestDto request);
     }
 }

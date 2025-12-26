@@ -13,7 +13,7 @@ using URLShortener.Services.Enums;
 using URLShortener.Services.Interfaces;
 using URLShortener.Services.Models;
 
-namespace URLShortener.Tests
+namespace URLShortener.Tests.Services
 {
     public class URLShortenerUserServiceTests
     {

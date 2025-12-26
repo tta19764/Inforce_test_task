@@ -44,9 +44,17 @@ namespace URLShortener.Services.Database.Servicies
             return GetByIdInternalAsync(id);
         }
 
-        public Task<UserModel> UpdateAsync(UserModel user, int userId)
+        public Task<UserModel> UpdateAsync(UserModel user)
         {
-            throw new NotImplementedException();
+            ArgumentNullException.ThrowIfNull(user);
+
+            return UpdateInternalAsync(new User(user.Id)
+            {
+                Username = user.Username,
+                PasswordHash = this.passwordHasher.Hash(user.Password),
+                NickName = user.Nickname,
+                AccountTypeId = (int)user.AccountType
+            });
         }
 
         private async Task<UserModel> AddInternalAsync(User user)
@@ -107,6 +115,39 @@ namespace URLShortener.Services.Database.Servicies
                 Nickname = user.NickName,
                 AccountType = Enum.Parse<AccountLevel>(user.AccountType.TypeName),
             };
+        }
+
+        public Task<UserModel?> GetUserByLoginAsync(string login)
+        {
+            ArgumentNullException.ThrowIfNull(login);
+
+            return GetUserByLoginInternalAsync(login);
+        }
+
+        private async Task<UserModel?> GetUserByLoginInternalAsync(string login)
+        {
+            var user = await this.userRepository.GetUserByLoginAsync(login);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return ConvertToModel(user);
+        }
+
+        private async Task<UserModel> UpdateInternalAsync(User user)
+        {
+            try
+            {
+                var result = await this.userRepository.UpdateAsync(user);
+                return ConvertToModel(result);
+            }
+            catch (DbUpdateException ex) when
+            (ex.InnerException?.Message.Contains("UNIQUE") == true ||
+            ex.Message.Contains("UNIQUE"))
+            {
+                throw new InvalidOperationException("User with this login already exists.", ex);
+            }
         }
     }
 }

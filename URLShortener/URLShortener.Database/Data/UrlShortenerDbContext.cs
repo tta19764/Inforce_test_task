@@ -8,6 +8,7 @@ namespace URLShortener.Services.Database.Data
         public DbSet<Url> URLs { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<AccountType> AccountTypes { get; set; } = null!;
+        public DbSet<AboutPage> AboutPages { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +45,14 @@ namespace URLShortener.Services.Database.Data
                     new AccountType { Id = 1, TypeName = "Admin" },
                     new AccountType { Id = 2, TypeName = "Regular" }
                 );
+
+            modelBuilder.Entity<AboutPage>().HasData(new AboutPage
+            {
+                Id = 1,
+                Content = "This URL Shortener uses Base62 encoding...",
+                CreatedDate = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
+            });
         }
     }
 }

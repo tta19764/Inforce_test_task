@@ -7,6 +7,9 @@ namespace URLShortener.Services.Models
         public string Username { get; set; } = null!;
 
         public string Password { get; set; } = null!;
+        public string? RefreshToken { get; set; }
+
+        public DateTime? RefreshTokenExpiryTime { get; set; }
 
         public string Nickname { get; set; } = string.Empty;
 

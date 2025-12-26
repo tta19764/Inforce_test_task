@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using URLShortener.Services.Database.Entities;
 using URLShortener.Services.Database.Repositories;
 
-namespace URLShortener.Tests
+namespace URLShortener.Tests.Repositories
 {
     public class URLShortenerUserRepositoryTests
     {
@@ -61,6 +61,33 @@ namespace URLShortener.Tests
             // Assert
             retrievedUser.ShouldNotBeNull("Retrieved User is null.");
             retrievedUser!.Username.ShouldBe("testuser", "Username does not match.");
+        }
+
+        [Fact]
+        public async Task GetUserByLoginWithEmptyLogin_ShouldThrowAnException()
+        {
+            // Arrange
+            using var context = StaticMethods.CreateContext();
+            var repository = new UserRepository(context);
+
+            // Act & Assert
+            await Should.ThrowAsync<ArgumentNullException>(async () => await repository.GetUserByLoginAsync(null));
+        }
+
+        [Fact]
+        public async Task GetUserByLogin_ShouldReturnCorrectUser()
+        {
+            // Arrange
+            using var context = StaticMethods.CreateContext();
+            var repository = new UserRepository(context);
+            var user = StaticMethods.CreateUser(id: 0);
+            user = await repository.AddAsync(user);
+
+            // Act
+            var retrievedUser = await repository.GetUserByLoginAsync(user.Username);
+
+            // Assert
+            retrievedUser.ShouldNotBeNull("Retrieved User is null.");
         }
 
         [Fact]
@@ -192,5 +219,7 @@ namespace URLShortener.Tests
             // Assert
             exception.ShouldNotBeNull("Expected exception was not thrown for duplicate Username.");
         }
+
+
     }
 }

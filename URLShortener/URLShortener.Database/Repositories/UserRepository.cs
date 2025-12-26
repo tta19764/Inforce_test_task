@@ -63,6 +63,13 @@ namespace URLShortener.Services.Database.Repositories
             return GetPaginatedInternalAsync(pageNumber, pageSize);
         }
 
+        public Task<User?> GetUserByLoginAsync(string login)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(login);
+
+            return GetUserByLoginInternalAsync(login);
+        }
+
         public Task<User> UpdateAsync(User entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
@@ -111,6 +118,11 @@ namespace URLShortener.Services.Database.Repositories
             this.Context.Entry(existing).CurrentValues.SetValues(entity);
             await this.Context.SaveChangesAsync();
             return existing;
+        }
+
+        private async Task<User?> GetUserByLoginInternalAsync(string login)
+        {
+            return await this.dbSet.FirstOrDefaultAsync(u => u.Username == login);
         }
     }
 }
