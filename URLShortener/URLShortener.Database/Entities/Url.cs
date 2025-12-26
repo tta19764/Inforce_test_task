@@ -5,7 +5,7 @@ namespace URLShortener.Services.Database.Entities
     public class Url (int id = 0) : BaseEntity (id)
     {
         public string OriginalURL { get; set; } = null!;
-        public string? ShortenedURL { get; set; }
+        public string ShortenedURL { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public int ClickCount { get; set; } = 0;
 

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using URLShortener.Services.Database.Data;
 using URLShortener.Services.Database.Entities;
+using URLShortener.Services.Models;
 
 namespace URLShortener.Tests
 {
@@ -27,13 +28,14 @@ namespace URLShortener.Tests
             return context;
         }
 
-        public static User CreateUser(int id = 1, string username = "testuser", string password = "password", int accountTypeId = 1)
+        public static User CreateUser(int id = 1, string username = "testuser", string password = "password", int accountTypeId = 1, string creatorNickName = "nickname")
         {
             return new User
             {
                 Id = id,
                 Username = username,
                 PasswordHash = password,
+                NickName = creatorNickName,
                 AccountTypeId = accountTypeId
             };
         }
@@ -46,6 +48,18 @@ namespace URLShortener.Tests
                 ShortenedURL = shortCode,
                 CreatedAt = DateTime.UtcNow,
                 Creator = user ?? CreateUser()
+            };
+        }
+
+        public static UrlModel CreateUrlModel(int id = 1, string originalOrl = "originalUrl", string shortUrl = "shortUrl", DateTime? createdAt = null, int creatorId = 1, string creatorNickName = "nickname")
+        {
+            return new UrlModel(id)
+            {
+                OriginalUrl = originalOrl,
+                ShortenedUrl = shortUrl,
+                CreatedAt = createdAt ?? DateTime.UtcNow,
+                CreatorId = creatorId,
+                CreatorNickName = creatorNickName,
             };
         }
     }
