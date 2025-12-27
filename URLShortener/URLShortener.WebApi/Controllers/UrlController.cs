@@ -15,7 +15,7 @@ namespace URLShortener.WebApi.Controllers
         private readonly IUrlService urlService = urlService ?? throw new ArgumentNullException(nameof(urlService));
 
         [HttpGet("{id:min(1)}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<UrlDto>> GetUrl(int id)
         {
             try
