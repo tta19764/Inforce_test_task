@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.WebApi", "URLShortener.WebApi\URLShortener.WebApi.csproj", "{8EE934A1-BF37-434B-9398-D77F8D25966B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.Services.Database", "URLShortener.Database\URLShortener.Services.Database.csproj", "{B1FB32AE-4991-4B62-9DF1-4FA54754230F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.WebApi.Models", "URLShortener.WebApi.Models\URLShortener.WebApi.Models.csproj", "{C641B4D9-9A9D-4F85-9432-BFAF10B51467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.Tests", "URLShortener.Tests\URLShortener.Tests.csproj", "{C26DA3E3-422B-45C7-B20D-50153D23E9CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.Services", "URLShortener.Services\URLShortener.Services.csproj", "{304BDE3D-B643-4CAE-B3CF-DA32ACFADA91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.WebApp", "URLShortener.WebApp\URLShortener.WebApp.csproj", "{43C8E452-4823-4640-AC67-3414CECF21DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.Services.WebApi", "URLShortener.Services.WebApi\URLShortener.Services.WebApi.csproj", "{100C7DBD-E406-43FB-9990-8364D7E38AA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EE934A1-BF37-434B-9398-D77F8D25966B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EE934A1-BF37-434B-9398-D77F8D25966B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EE934A1-BF37-434B-9398-D77F8D25966B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EE934A1-BF37-434B-9398-D77F8D25966B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1FB32AE-4991-4B62-9DF1-4FA54754230F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1FB32AE-4991-4B62-9DF1-4FA54754230F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1FB32AE-4991-4B62-9DF1-4FA54754230F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1FB32AE-4991-4B62-9DF1-4FA54754230F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C641B4D9-9A9D-4F85-9432-BFAF10B51467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C641B4D9-9A9D-4F85-9432-BFAF10B51467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C641B4D9-9A9D-4F85-9432-BFAF10B51467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C641B4D9-9A9D-4F85-9432-BFAF10B51467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C26DA3E3-422B-45C7-B20D-50153D23E9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26DA3E3-422B-45C7-B20D-50153D23E9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26DA3E3-422B-45C7-B20D-50153D23E9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26DA3E3-422B-45C7-B20D-50153D23E9CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{304BDE3D-B643-4CAE-B3CF-DA32ACFADA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{304BDE3D-B643-4CAE-B3CF-DA32ACFADA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{304BDE3D-B643-4CAE-B3CF-DA32ACFADA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{304BDE3D-B643-4CAE-B3CF-DA32ACFADA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C8E452-4823-4640-AC67-3414CECF21DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C8E452-4823-4640-AC67-3414CECF21DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C8E452-4823-4640-AC67-3414CECF21DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C8E452-4823-4640-AC67-3414CECF21DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{100C7DBD-E406-43FB-9990-8364D7E38AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100C7DBD-E406-43FB-9990-8364D7E38AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100C7DBD-E406-43FB-9990-8364D7E38AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100C7DBD-E406-43FB-9990-8364D7E38AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

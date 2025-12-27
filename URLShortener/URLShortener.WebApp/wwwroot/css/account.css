@@ -1,0 +1,67 @@
+﻿body {
+    background: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.account-box {
+    background: white;
+    border-radius: 12px;
+    padding: 48px 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    border: 1px solid #e5e7eb;
+}
+
+.account-box h2 {
+    color: #111827;
+    font-weight: 600;
+    font-size: 26px;
+    margin-bottom: 32px;
+}
+
+.form-label {
+    color: #374151;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.form-control {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 15px;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-success {
+    background: #10b981;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
+.text-danger {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 4px;
+}

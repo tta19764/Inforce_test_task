@@ -1,0 +1,84 @@
+﻿@model AboutPageViewModel
+@{
+    ViewData["Title"] = "About URL Shortener";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
+}
+
+<div class="about-container">
+    <div class="about-header">
+        <h1>About Our URL Shortener</h1>
+        @if (User.IsInRole("Admin"))
+        {
+            <button type="button" class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editModal">
+                <span>Edit Content</span>
+            </button>
+        }
+    </div>
+
+    <div class="about-content">
+        <div class="content-body">
+            <span>@Model.Content</span>
+        </div>
+
+        <div class="content-footer">
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-label">@Html.DisplayNameFor(m => m.CreatedDate):</span>
+                    <span class="meta-value">@Model.CreatedDate.ToString("MMM dd, yyyy 'at' HH:mm")</span>
+                </div>
+                <div class="meta-item">
+                    @if (@Model.LastModified != DateTime.MinValue) 
+                    {
+                        <span class="meta-label">@Html.DisplayNameFor(m => m.LastModified):</span>
+                        <span class="meta-value">@Model.LastModified.ToString("MMM dd, yyyy 'at' HH:mm")</span>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(Model.LastModifiedBy))
+                {
+                    <div class="meta-item">
+                        <span class="meta-label">@Html.DisplayNameFor(m => m.LastModifiedBy):</span>
+                        <span class="meta-value">@Model.LastModifiedBy</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form asp-action="Update" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit About Page</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label asp-for="Content" class="form-label"></label>
+                            <textarea asp-for="Content" class="form-control" rows="12"></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                Describe the URL shortening algorithm used in this application.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

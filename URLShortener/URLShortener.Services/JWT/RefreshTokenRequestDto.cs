@@ -8,7 +8,7 @@ namespace URLShortener.Services.JWT
 {
     public class RefreshTokenRequestDto
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         public string RefreshToken { get; set; } = null!;
     }

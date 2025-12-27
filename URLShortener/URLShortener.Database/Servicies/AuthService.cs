@@ -50,7 +50,12 @@ namespace URLShortener.Services.Database.Servicies
 
         public async Task<TokenResponseDto?> RefreshTokensAsync(RefreshTokenRequestDto request)
         {
-            var user = await ValidateRefreshTokenAsync(request.UserId, request.RefreshToken);
+            if (string.IsNullOrWhiteSpace(request.UserId))
+            {
+                return null;
+            }
+
+            var user = await ValidateRefreshTokenAsync(int.Parse(request.UserId), request.RefreshToken);
             if (user is null)
                 return null;
 
@@ -104,7 +109,7 @@ namespace URLShortener.Services.Database.Servicies
                 issuer: this.configuration["AppSettings:Issuer"],
                 audience: this.configuration["AppSettings:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(1),
+                expires: DateTime.UtcNow.AddMinutes(15),
                 signingCredentials: creds
             );
 
