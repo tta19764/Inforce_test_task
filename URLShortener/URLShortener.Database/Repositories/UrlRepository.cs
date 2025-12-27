@@ -49,6 +49,11 @@ namespace URLShortener.Services.Database.Repositories
             return GetByIdInternalAsync(id);
         }
 
+        public async Task<int> GetCount()
+        {
+            return await this.dbSet.CountAsync();
+        }
+
         public Task<IEnumerable<Url>> GetPaginatedAsync(int pageNumber, int pageSize)
         {
             if (pageNumber <= 0)
@@ -75,6 +80,10 @@ namespace URLShortener.Services.Database.Repositories
         {
             var newUrl = await dbSet.AddAsync(entity);
             await Context.SaveChangesAsync();
+
+            await Context.Entry(newUrl.Entity)
+                .Reference(u => u.Creator)
+                .LoadAsync();
 
             return newUrl.Entity;
         }
@@ -111,6 +120,11 @@ namespace URLShortener.Services.Database.Repositories
             var existing = await dbSet.FindAsync(entity.Id) ?? throw new KeyNotFoundException($"Url with ID {entity.Id} not found.");
             this.Context.Entry(existing).CurrentValues.SetValues(entity);
             await this.Context.SaveChangesAsync();
+
+            await Context.Entry(existing)
+                .Reference(u => u.Creator)
+                .LoadAsync();
+
             return existing;
         }
     }

@@ -9,8 +9,8 @@ namespace URLShortener.Services.Interfaces
 {
     public interface IAboutPageService
     {
-        Task<AboutPageModel> GetAboutPageInfo();
+        Task<AboutPageModel> GetAboutPageInfoAsync();
 
-        Task<AboutPageModel> UpdateAsunc(string content, int userId);
+        Task<AboutPageModel> UpdateAsync(string content, int userId);
     }
 }

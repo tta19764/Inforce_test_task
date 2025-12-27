@@ -10,7 +10,7 @@ using URLShortener.Services.Services;
 
 namespace URLShortener.Services.Database.Servicies
 {
-    public class UrlService (IUrlRepository urlRepository, IUserRepository userRepository, IUrlShorteningService urlShorteningService) : IUrlService
+    public class UrlService(IUrlRepository urlRepository, IUserRepository userRepository, IUrlShorteningService urlShorteningService) : IUrlService
     {
         private readonly IUrlRepository urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
         private readonly IUserRepository userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -178,6 +178,11 @@ namespace URLShortener.Services.Database.Servicies
                 CreatorId = entity.Creator.Id,
                 CreatorNickName = entity.Creator.NickName,
             };
+        }
+
+        public async Task<int> GetCount()
+        {
+            return await this.urlRepository.GetCount();
         }
     }
 }

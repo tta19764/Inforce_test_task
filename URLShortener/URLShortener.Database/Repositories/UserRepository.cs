@@ -81,6 +81,9 @@ namespace URLShortener.Services.Database.Repositories
         {
             var newUser = await dbSet.AddAsync(entity);
             await Context.SaveChangesAsync();
+            await Context.Entry(newUser.Entity)
+                .Reference(u => u.AccountType)
+                .LoadAsync();
 
             return newUser.Entity;
         }
@@ -99,14 +102,14 @@ namespace URLShortener.Services.Database.Repositories
         private async Task<User?> GetByIdInternalAsync(int id)
         {
             return await dbSet
-                .Include(url => url.AccountType)
-                .FirstOrDefaultAsync(url => url.Id == id);
+                .Include(user => user.AccountType)
+                .FirstOrDefaultAsync(user => user.Id == id);
         }
 
         private async Task<IEnumerable<User>> GetPaginatedInternalAsync(int pageNumber, int pageSize)
         {
             return await dbSet
-                .Include(url => url.AccountType)
+                .Include(user => user.AccountType)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -117,12 +120,24 @@ namespace URLShortener.Services.Database.Repositories
             var existing = await dbSet.FindAsync(entity.Id) ?? throw new KeyNotFoundException($"Url with ID {entity.Id} not found.");
             this.Context.Entry(existing).CurrentValues.SetValues(entity);
             await this.Context.SaveChangesAsync();
+
+            await Context.Entry(existing)
+                .Reference(u => u.AccountType)
+                .LoadAsync();
+
             return existing;
         }
 
         private async Task<User?> GetUserByLoginInternalAsync(string login)
         {
-            return await this.dbSet.FirstOrDefaultAsync(u => u.Username == login);
+            return await this.dbSet
+                .Include(user => user.AccountType)
+                .FirstOrDefaultAsync(u => u.Username == login);
+        }
+
+        public async Task<int> GetCount()
+        {
+            return await this.dbSet.CountAsync();
         }
     }
 }

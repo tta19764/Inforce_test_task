@@ -12,13 +12,13 @@ namespace URLShortener.Services.Database.Servicies
         private readonly IAboutPageRepository aboutPageRepository = aboutPageRepository ?? throw new ArgumentNullException(nameof(aboutPageRepository));
         private readonly IUserRepository userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 
-        public async Task<AboutPageModel> GetAboutPageInfo()
+        public async Task<AboutPageModel> GetAboutPageInfoAsync()
         {
             return ConvertToModel(
                 await this.aboutPageRepository.GetAboutPageInfo());
         }
 
-        public Task<AboutPageModel> UpdateAsunc(string content, int userId)
+        public Task<AboutPageModel> UpdateAsync(string content, int userId)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(content);
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(userId);  

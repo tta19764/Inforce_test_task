@@ -166,7 +166,7 @@ namespace URLShortener.Tests.Repositories
 
             // Assert
             allUsers.ShouldNotBeNull("Retrieved Users are null.");
-            allUsers.Count().ShouldBe(2, "Number of Users retrieved does not match.");
+            allUsers.Count().ShouldBe(3, "Number of Users retrieved does not match.");
         }
 
         [Fact]
@@ -189,7 +189,7 @@ namespace URLShortener.Tests.Repositories
             // Assert
             paginatedUsers.ShouldNotBeNull("Retrieved Users are null.");
             paginatedUsers.Count().ShouldBe(3, "Number of Users retrieved does not match.");
-            paginatedUsers.First().Username.ShouldBe("user4", "First User on the page does not match.");
+            paginatedUsers.First().Username.ShouldBe("user3", "First User on the page does not match.");
         }
 
         [Fact]

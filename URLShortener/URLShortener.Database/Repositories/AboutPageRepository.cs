@@ -40,6 +40,11 @@ namespace URLShortener.Services.Database.Repositories
                 throw new KeyNotFoundException($"About Page Info with ID {page.Id} not found.");
             this.Context.Entry(existing).CurrentValues.SetValues(page);
             await this.Context.SaveChangesAsync();
+
+            await Context.Entry(existing)
+                .Reference(u => u.LastModifiedBy)
+                .LoadAsync();
+
             return existing;
         }
     }

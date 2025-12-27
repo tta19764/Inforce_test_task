@@ -68,7 +68,7 @@ namespace URLShortener.Tests.Services
 
             passwordHasherMock.Setup(h =>
                 h.Verify(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(true); // invalid password
+                .Returns(false);
 
             var service = CreateService();
 
@@ -97,7 +97,7 @@ namespace URLShortener.Tests.Services
 
             passwordHasherMock.Setup(h =>
                 h.Verify(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(false); // password OK
+                .Returns(true);
 
             var service = CreateService();
 

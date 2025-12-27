@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using URLShortener.Services.Database.Entities;
+using URLShortener.Services.Interfaces;
+using URLShortener.Services.Services;
 
 namespace URLShortener.Services.Database.Data
 {
-    public class UrlShortenerDbContext(DbContextOptions<UrlShortenerDbContext> options) : DbContext(options)
+    public class UrlShortenerDbContext(DbContextOptions<UrlShortenerDbContext> options, IPasswordHasher passwordHasher) : DbContext(options)
     {
         public DbSet<Url> URLs { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
@@ -52,6 +54,15 @@ namespace URLShortener.Services.Database.Data
                 Content = "This URL Shortener uses Base62 encoding...",
                 CreatedDate = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
+            });
+
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                Username = "Admin",
+                PasswordHash = passwordHasher.Hash("Admin123$"),
+                NickName = "Admin",
+                AccountTypeId = 1, 
             });
         }
     }

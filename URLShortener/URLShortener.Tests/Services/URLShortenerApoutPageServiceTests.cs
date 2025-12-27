@@ -37,7 +37,7 @@ namespace URLShortener.Tests.Services
             var service = CreateService();
 
             // Act
-            var result = await service.GetAboutPageInfo();
+            var result = await service.GetAboutPageInfoAsync();
 
             // Assert
             result.Content.ShouldBe("About content");
@@ -67,7 +67,7 @@ namespace URLShortener.Tests.Services
             var service = CreateService();
 
             // Act
-            var result = await service.UpdateAsunc("New content", admin.Id);
+            var result = await service.UpdateAsync("New content", admin.Id);
 
             // Assert
             result.Content.ShouldBe("New content");
@@ -94,7 +94,7 @@ namespace URLShortener.Tests.Services
 
             // Act & Assert
             await Should.ThrowAsync<InvalidOperationException>(
-                () => service.UpdateAsunc("New content", user.Id));
+                () => service.UpdateAsync("New content", user.Id));
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace URLShortener.Tests.Services
 
             // Act & Assert
             await Should.ThrowAsync<InvalidOperationException>(
-                () => service.UpdateAsunc("Content", 999));
+                () => service.UpdateAsync("Content", 999));
         }
     }
 }

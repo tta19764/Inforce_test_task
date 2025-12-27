@@ -16,7 +16,7 @@ namespace URLShortener.Tests.Repositories
             // Arrange
             using var context = StaticMethods.CreateContext();
             var repository = new AboutPageRepository(context);
-            var user = StaticMethods.CreateUser(id: 1);
+            var user = StaticMethods.CreateUser(id: 99);
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
             var existing = context.AboutPages.First();

@@ -31,7 +31,7 @@ namespace URLShortener.Services.Database.Servicies
                 return null;
             }
 
-            if (this.passwordHasher.Verify(request.Password, user.PasswordHash))
+            if (!this.passwordHasher.Verify(request.Password, user.PasswordHash))
             {
                 return null;
             }

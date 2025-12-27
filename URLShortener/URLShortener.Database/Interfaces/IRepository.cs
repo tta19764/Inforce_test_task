@@ -9,6 +9,8 @@ namespace URLShortener.Services.Database.Interfaces
 
         Task<IEnumerable<TEntity>> GetPaginatedAsync(int pageNumber, int pageSize);
 
+        Task<int> GetCount();
+
         Task<TEntity?> GetByIdAsync(int id);
 
         Task<TEntity> AddAsync(TEntity entity);

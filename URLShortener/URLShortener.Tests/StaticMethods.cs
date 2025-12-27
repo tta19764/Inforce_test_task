@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using URLShortener.Services.Database.Data;
 using URLShortener.Services.Database.Entities;
 using URLShortener.Services.Models;
+using URLShortener.Services.Services;
 
 namespace URLShortener.Tests
 {
@@ -22,14 +23,14 @@ namespace URLShortener.Tests
                 .UseSqlite(connection)
                 .Options;
 
-            var context = new UrlShortenerDbContext(options);
+            var context = new UrlShortenerDbContext(options, new PasswordHasher());
             context.Database.EnsureCreated();
 
             return context;
         }
 
 
-        public static User CreateUser(int id = 1, string username = "testuser", string password = "password", int accountTypeId = 1, string creatorNickName = "nickname")
+        public static User CreateUser(int id = 99, string username = "testuser", string password = "password", int accountTypeId = 1, string creatorNickName = "nickname")
         {
             return new User
             {
