@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using URLShortener.Services.Database.Entities;
 using URLShortener.Services.Database.Servicies;
 using URLShortener.Services.Interfaces;
 using URLShortener.Services.JWT;
 using URLShortener.Services.Models;
 using URLShortener.WebApi.Models.Dtos;
+using URLShortener.WebApi.Models.Dtos.Read;
 
 namespace URLShortener.WebApi.Controllers
 {

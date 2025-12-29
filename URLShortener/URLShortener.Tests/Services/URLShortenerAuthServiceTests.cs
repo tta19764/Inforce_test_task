@@ -130,7 +130,7 @@ namespace URLShortener.Tests.Services
             // Act
             var result = await service.RefreshTokensAsync(new RefreshTokenRequestDto
             {
-                UserId = user.Id,
+                UserId = user.Id.ToString(),
                 RefreshToken = "invalid-token"
             });
 
@@ -157,7 +157,7 @@ namespace URLShortener.Tests.Services
             // Act
             var result = await service.RefreshTokensAsync(new RefreshTokenRequestDto
             {
-                UserId = user.Id,
+                UserId = user.Id.ToString(),
                 RefreshToken = "valid-token"
             });
 

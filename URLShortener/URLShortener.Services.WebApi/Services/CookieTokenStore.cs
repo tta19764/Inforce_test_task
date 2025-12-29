@@ -9,19 +9,14 @@ using URLShortener.Services.WebApi.Interfaces;
 
 namespace URLShortener.Services.WebApi.Services
 {
-    public sealed class CookieTokenStore : ITokenStore
+    public sealed class CookieTokenStore(IHttpContextAccessor httpContextAccessor) : ITokenStore
     {
         private const string AccessTokenKey = "access_token";
         private const string RefreshTokenKey = "refresh_token";
         private const string UserIdKey = "user_id";
 
-        private readonly IHttpContextAccessor httpContextAccessor;
-
-        public CookieTokenStore(IHttpContextAccessor httpContextAccessor)
-        {
-            this.httpContextAccessor = httpContextAccessor
+        private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor
                 ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        }
 
         private HttpContext HttpContext =>
             httpContextAccessor.HttpContext

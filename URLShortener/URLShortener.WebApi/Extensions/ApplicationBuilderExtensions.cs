@@ -16,6 +16,8 @@ namespace URLShortener.WebApi.Extensions
 
             app.UseHttpsRedirection();
 
+            app.UseCors("FrontendPolicy");
+
             app.UseAuthentication();
             app.UseAuthorization();
 

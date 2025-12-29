@@ -100,10 +100,14 @@ namespace URLShortener.Services.Database.Servicies
                 return ConvertToModel(created);
             }
             catch (DbUpdateException ex) when 
-            (ex.InnerException?.Message.Contains("UNIQUE") == true || 
-            ex.Message.Contains("UNIQUE"))
+            (ex.InnerException?.Message.ToUpper().Contains("UNIQUE") == true || 
+            ex.Message.ToUpper().Contains("UNIQUE"))
             {
                 throw new InvalidOperationException("URL already exists.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message, ex);
             }
         }
 
@@ -126,6 +130,10 @@ namespace URLShortener.Services.Database.Servicies
             catch (KeyNotFoundException ex)
             {
                 throw new InvalidOperationException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message, ex);
             }
         }
 

@@ -138,6 +138,16 @@ namespace URLShortener.WebApi.Extensions
                 };
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("FrontendPolicy", policy =>
+                    policy
+                        .WithOrigins("http://localhost:5173")  // exact React address
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                );
+            });
+
             services.AddAuthorization();
 
             return services;
