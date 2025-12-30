@@ -42,7 +42,7 @@ function UrlsTablePage() {
         };
 
         loadData();
-    }, [pageNumber, updateTable, urlsService]);
+    }, [pageNumber, updateTable]);
 
     const totalPages = Math.ceil(urlCount / pageSize);
 
