@@ -7,6 +7,6 @@ export interface IUserStorage {
     clearToken(): void;
 
     getUser(): AuthUser | null;
-    setUser(user: AuthUser): void;
+    setUser(user: AuthUser, token: JwtToken | null): void;
     clearUser(): void;
 }

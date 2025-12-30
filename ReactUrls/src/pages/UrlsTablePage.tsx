@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import type { UrlTableRequest } from "../types/UrlTableRequest";
-import type { IUrlsService } from "../interfaces/IUrlsService";
-import { urlsService } from "../services/urlsService";
 import type { Url } from "../types/Url";
 import '../styles/urlstablepage.css';
 import { useAppSelector } from "../hooks/reduxHooks";
@@ -9,16 +7,13 @@ import { useDispatch } from "react-redux";
 import { openModal, setUpdateTable } from "../features/modal/modalSlice";
 import Modal from "../components/Modal";
 import { Link, useParams } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-const URL_URL = import.meta.env.VITE_APP_URLS_ENDPOINT;
+import { urlsService } from "../main";
 
 function UrlsTablePage() {
-    const axiosPrivate = useAxiosPrivate();
     const { page } = useParams();
     const dispatch = useDispatch();
     const { isOpen, updateTable } = useAppSelector((state) => state.modal);
     const { isLoggedIn, userData } = useAppSelector((state) => state.user);
-    const apiUrlService: IUrlsService = urlsService;
 
     const [urls, setUrls] = useState<Url[]>([]);
     // const [isLoading, setIsLoading] = useState(false);
@@ -37,8 +32,8 @@ function UrlsTablePage() {
             };
 
             const [urlsData, count] = await Promise.all([
-                apiUrlService.getUrls(request),
-                apiUrlService.getUrlsCount(),
+                urlsService.getUrls(request),
+                urlsService.getUrlsCount(),
             ]);
 
             setUrls(urlsData);
@@ -47,7 +42,7 @@ function UrlsTablePage() {
         };
 
         loadData();
-    }, [pageNumber, updateTable, apiUrlService]);
+    }, [pageNumber, updateTable, urlsService]);
 
     const totalPages = Math.ceil(urlCount / pageSize);
 
@@ -55,9 +50,7 @@ function UrlsTablePage() {
         const controller = new AbortController();
 
         try {
-            await axiosPrivate.delete(URL_URL+`${id}`, {
-                signal: controller.signal
-            });
+            await urlsService.deleteUrl(id, controller.signal);
 
             dispatch(setUpdateTable());
         } catch (err) {

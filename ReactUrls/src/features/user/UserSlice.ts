@@ -3,7 +3,7 @@ import {
     createAsyncThunk 
 } from "@reduxjs/toolkit";
 import { type UserState } from "../../types/UserState";
-import axiosPublic from "../../api/axios";
+import { axiosPublic } from "../../api/axios";
 import type { AuthUser } from "../../types/AuthUser";
 import type { LoginRequest } from "../../types/LoginRequest";
 import decodeJWT from "../../helpers/decodeJWT";
@@ -28,11 +28,11 @@ export const loginUser = createAsyncThunk(
     async (payload: LoginRequest, thunkAPI) => {
         try {
             const response = await axiosPublic.post(AUTH_URL+"login", JSON.stringify(payload),
-        {
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             return response.data;
         } catch (error) { 
             console.log(error); return thunkAPI.rejectWithValue("Failed to login"); 
@@ -48,12 +48,6 @@ const userSlice = createSlice({
             state.isLoggedIn = false;
             state.userData = null;
         },
-        updateToken: (state, action) => {
-            if(state.userData){
-                state.userData.token = action.payload;
-                userStorage.setToken(action.payload);
-            };
-        },
     },
     extraReducers: (builder) => {
         builder
@@ -68,11 +62,10 @@ const userSlice = createSlice({
                     const user : AuthUser = {
                         userId: decodedJWT.nameId, 
                         role: decodedJWT.role, 
-                        nickname: decodedJWT.name, 
-                        token: receivedToken,
+                        nickname: decodedJWT.name,
                     };
 
-                    userStorage.setUser(user);
+                    userStorage.setUser(user, receivedToken);
                     state.userData = user;
                     state.isLoggedIn = true;
                 }
@@ -88,5 +81,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { logout, updateToken } = userSlice.actions;
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;

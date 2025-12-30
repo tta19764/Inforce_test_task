@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { closeModal, setUpdateTable } from "../features/modal/modalSlice";
 import { useDispatch } from "react-redux";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-const URL_URL = import.meta.env.VITE_APP_URLS_ENDPOINT;
+import { urlsService } from "../main";
 
 function Modal() {
     const controller = new AbortController();
@@ -10,7 +9,6 @@ function Modal() {
     const [url, setUrl] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const axiosPrivate = useAxiosPrivate();
 
     const handleSubmit = async () => {
         if (!url.trim()) {
@@ -22,11 +20,9 @@ function Modal() {
             setIsSubmitting(true);
             setError(null);
 
-            const response = await axiosPrivate.post(URL_URL, url,{
-                    signal: controller.signal
-                });
+            const response = await urlsService.addUrl(url, controller.signal);
 
-            if (!response.data) {
+            if (!response) {
                 setError("Failed to add URL. It may already exist.");
                 return;
             }

@@ -3,13 +3,10 @@ import { useEffect, useState } from "react";
 import type { Url } from "../types/Url";
 import { useAppSelector } from "../hooks/reduxHooks";
 import '../styles/shorturlinfopage.css';
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import axios from "axios";
-const URL_URL = import.meta.env.VITE_APP_URLS_ENDPOINT;
+import { urlsService } from "../main";
 
 function ShortUrlInfoPage(){
-    const axiosPrivate = useAxiosPrivate();
-
     const { urlId } = useParams();
     const { isLoggedIn } = useAppSelector((state) => state.user);
 
@@ -25,11 +22,9 @@ function ShortUrlInfoPage(){
         const loadData = async () => {
             try {
                 setIsLoading(true);
-                const response = await axiosPrivate.get(URL_URL+`${urlId}`, {
-                    signal: controller.signal,
-                });
+                const response = await urlsService.getUrl(Number.parseInt(urlId), controller.signal);
 
-                setUrl(response.data);
+                setUrl(response);
             } catch (error) {
                 if (axios.isAxiosError(error) && error.code === "ERR_CANCELED") return;
                 setError("Failed to load URL details.");
@@ -44,7 +39,7 @@ function ShortUrlInfoPage(){
             didCancel = true;
             controller.abort();
         };
-    }, [urlId, isLoggedIn, axiosPrivate]);
+    }, [urlId, isLoggedIn]);
 
     if (!isLoggedIn) {
         return <p className="url-info-error">You must be logged in to view this page.</p>;
