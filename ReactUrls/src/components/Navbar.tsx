@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { loginUser, logout } from '../features/user/UserSlice';
 import type { LoginRequest } from '../types/LoginRequest';
 import '../styles/navbar.css'

@@ -48,6 +48,12 @@ const userSlice = createSlice({
             state.isLoggedIn = false;
             state.userData = null;
         },
+        updateToken: (state, action) => {
+            if(state.userData){
+                state.userData.token = action.payload;
+                userStorage.setToken(action.payload);
+            };
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -82,5 +88,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, updateToken } = userSlice.actions;
 export default userSlice.reducer;

@@ -4,13 +4,16 @@ import type { IUrlsService } from "../interfaces/IUrlsService";
 import { urlsService } from "../services/urlsService";
 import type { Url } from "../types/Url";
 import '../styles/urlstablepage.css';
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../hooks/reduxHooks";
 import { useDispatch } from "react-redux";
 import { openModal, setUpdateTable } from "../features/modal/modalSlice";
 import Modal from "../components/Modal";
 import { Link, useParams } from "react-router-dom";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+const URL_URL = import.meta.env.VITE_APP_URLS_ENDPOINT;
 
 function UrlsTablePage() {
+    const axiosPrivate = useAxiosPrivate();
     const { page } = useParams();
     const dispatch = useDispatch();
     const { isOpen, updateTable } = useAppSelector((state) => state.modal);
@@ -18,7 +21,7 @@ function UrlsTablePage() {
     const apiUrlService: IUrlsService = urlsService;
 
     const [urls, setUrls] = useState<Url[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const [urlCount, setUrlCount] = useState(0);
     const pageNumber = page ? Number.parseInt(page) : 1;
 
@@ -26,7 +29,7 @@ function UrlsTablePage() {
 
     useEffect(() => {
         const loadData = async () => {
-            setIsLoading(true);
+            // setIsLoading(true);
 
             const request: UrlTableRequest = {
                 pageNumber,
@@ -40,22 +43,31 @@ function UrlsTablePage() {
 
             setUrls(urlsData);
             setUrlCount(count);
-            setIsLoading(false);
+            // setIsLoading(false);
         };
 
         loadData();
-    }, [pageNumber, updateTable]);
+    }, [pageNumber, updateTable, apiUrlService]);
 
     const totalPages = Math.ceil(urlCount / pageSize);
 
     async function deleteUrlFunc(id:number) {
-        await apiUrlService.deleteUrl(id);
-        dispatch(setUpdateTable());
+        const controller = new AbortController();
+
+        try {
+            await axiosPrivate.delete(URL_URL+`${id}`, {
+                signal: controller.signal
+            });
+
+            dispatch(setUpdateTable());
+        } catch (err) {
+            console.error(err);
+        }
     };
 
-    if (isLoading) {
-        return <h1>loading...</h1>;
-    }
+    // if (isLoading) {
+    //     return <h1>loading...</h1>;
+    // }
 
     return (
         <>

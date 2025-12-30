@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
-import type { IUrlsService } from "../interfaces/IUrlsService";
-import { urlsService } from "../services/urlsService";
 import { useEffect, useState } from "react";
 import type { Url } from "../types/Url";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../hooks/reduxHooks";
 import '../styles/shorturlinfopage.css';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import axios from "axios";
+const URL_URL = import.meta.env.VITE_APP_URLS_ENDPOINT;
 
 function ShortUrlInfoPage(){
-    const apiUrlService: IUrlsService = urlsService;
+    const axiosPrivate = useAxiosPrivate();
 
     const { urlId } = useParams();
     const { isLoggedIn } = useAppSelector((state) => state.user);
@@ -18,27 +19,32 @@ function ShortUrlInfoPage(){
 
     useEffect(() => {
         if (!urlId || !isLoggedIn) return;
+        let didCancel = false;
+        const controller = new AbortController();
 
         const loadData = async () => {
             try {
                 setIsLoading(true);
-                const result = await apiUrlService.getUrl(Number(urlId));
+                const response = await axiosPrivate.get(URL_URL+`${urlId}`, {
+                    signal: controller.signal,
+                });
 
-                if (!result) {
-                    setError("URL not found.");
-                    return;
-                }
-
-                setUrl(result);
-            } catch {
+                setUrl(response.data);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.code === "ERR_CANCELED") return;
                 setError("Failed to load URL details.");
-            } finally {
-                setIsLoading(false);
+            }finally {
+                if (!didCancel) setIsLoading(false);
             }
-        };
+        }
 
         loadData();
-    }, [urlId, isLoggedIn]);
+
+        return () => {
+            didCancel = true;
+            controller.abort();
+        };
+    }, [urlId, isLoggedIn, axiosPrivate]);
 
     if (!isLoggedIn) {
         return <p className="url-info-error">You must be logged in to view this page.</p>;
