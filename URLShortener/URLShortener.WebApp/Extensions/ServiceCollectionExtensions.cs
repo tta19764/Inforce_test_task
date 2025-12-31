@@ -34,7 +34,7 @@ namespace URLShortener.WebApp.Extensions
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                     options.Cookie.SameSite = SameSiteMode.Strict;
 
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                    options.ExpireTimeSpan = TimeSpan.FromDays(7);
                     options.SlidingExpiration = true;
                 })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>

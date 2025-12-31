@@ -138,7 +138,6 @@ namespace URLShortener.WebApp.Controllers
                     new AuthenticationProperties
                     {
                         IsPersistent = loginViewModel.RememberMe,
-                        ExpiresUtc = jwt.ValidTo
                     });
 
                 logger.LogInformation("User {Username} logged in successfully.", loginViewModel.UserName);

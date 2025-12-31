@@ -19,41 +19,56 @@ namespace URLShortener.WebApp.Handlers
         private readonly IAuthService authService = authService ?? throw new ArgumentNullException(nameof(authService));
         private readonly ILogger<AuthTokenHandler> logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+        private const string RETRYKEY = "AuthRetry";
+        private static readonly HttpRequestOptionsKey<bool> RetryKey =
+            new(RETRYKEY);
+
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            await AttachAccessToken(request);
+            AttachAccessToken(request);
 
-            return await base.SendAsync(request, cancellationToken);
+            var response = await base.SendAsync(request, cancellationToken);
+
+            if (response.StatusCode != HttpStatusCode.Unauthorized)
+            {
+                return response;
+            }
+
+            if (request.Options.TryGetValue(RetryKey, out _))
+            {
+                return response;
+            }
+
+            logger.LogInformation("401 received. Attempting token refresh.");
+
+            var refreshed = await TryRefreshTokenAsync();
+            if (!refreshed)
+            {
+                logger.LogWarning("Token refresh failed.");
+                return response;
+            }
+
+            var retryRequest = await CloneHttpRequestAsync(request);
+            retryRequest.Options.TryAdd(RETRYKEY, true);
+
+            AttachAccessToken(retryRequest);
+
+            return await base.SendAsync(retryRequest, cancellationToken);
         }
 
-        private async Task AttachAccessToken(HttpRequestMessage request)
+        private void AttachAccessToken(HttpRequestMessage request)
         {
             if (string.IsNullOrWhiteSpace(tokenStore.AccessToken))
+            {
                 return;
-
-            try
-            {
-                var jwt = new JwtSecurityTokenHandler()
-                    .ReadJwtToken(tokenStore.AccessToken);
-
-                var expUtc = jwt.ValidTo;
-
-                if (expUtc <= DateTime.UtcNow.AddMinutes(1) && !await TryRefreshTokenAsync())
-                {
-                    logger.LogWarning("Token refresh failed.");
-                    return;
-                }
-
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue("Bearer", tokenStore.AccessToken);
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Invalid access token format.");
-                tokenStore.Clear();
-            }
+
+            request.Headers.Remove("Authorization");
+
+            request.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", tokenStore.AccessToken);
         }
 
         private async Task<bool> TryRefreshTokenAsync()
@@ -79,7 +94,34 @@ namespace URLShortener.WebApp.Handlers
             }
 
             tokenStore.Save(response, tokenStore.UserId);
+
             return true;
+        }
+
+        private static async Task<HttpRequestMessage> CloneHttpRequestAsync(
+            HttpRequestMessage request)
+        {
+            var clone = new HttpRequestMessage(
+                request.Method,
+                request.RequestUri);
+
+            foreach (var header in request.Headers)
+            {
+                clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
+            }
+
+            if (request.Content != null)
+            {
+                var content = await request.Content.ReadAsByteArrayAsync();
+                clone.Content = new ByteArrayContent(content);
+
+                foreach (var header in request.Content.Headers)
+                {
+                    clone.Content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                }
+            }
+
+            return clone;
         }
     }
 }

@@ -15,6 +15,10 @@ namespace URLShortener.Services.WebApi.Services
         private const string RefreshTokenKey = "refresh_token";
         private const string UserIdKey = "user_id";
 
+        private string? accessToken;
+        private string? refreshToken;
+        private string? userId;
+
         private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor
                 ?? throw new ArgumentNullException(nameof(httpContextAccessor));
 
@@ -23,20 +27,21 @@ namespace URLShortener.Services.WebApi.Services
             ?? throw new InvalidOperationException("HttpContext is not available.");
 
         public string? AccessToken =>
-            HttpContext.Request.Cookies[AccessTokenKey];
+            accessToken ?? HttpContext.Request.Cookies[AccessTokenKey];
 
         public string? RefreshToken =>
-            HttpContext.Request.Cookies[RefreshTokenKey];
+            refreshToken ?? HttpContext.Request.Cookies[RefreshTokenKey];
 
         public string? UserId =>
-            HttpContext.Request.Cookies[UserIdKey];
+            userId ?? HttpContext.Request.Cookies[UserIdKey];
 
         public void Save(TokenResponseDto tokens, string userId)
         {
-            ArgumentNullException.ThrowIfNull(tokens);
-            ArgumentException.ThrowIfNullOrWhiteSpace(userId);
-
             var options = CreateCookieOptions();
+
+            this.accessToken = tokens.AccessToken;
+            this.refreshToken = tokens.RefreshToken;
+            this.userId = userId;
 
             HttpContext.Response.Cookies.Append(AccessTokenKey, tokens.AccessToken, options);
             HttpContext.Response.Cookies.Append(RefreshTokenKey, tokens.RefreshToken, options);
@@ -45,6 +50,10 @@ namespace URLShortener.Services.WebApi.Services
 
         public void Clear()
         {
+            accessToken = null;
+            refreshToken = null;
+            userId = null;
+
             HttpContext.Response.Cookies.Delete(AccessTokenKey);
             HttpContext.Response.Cookies.Delete(RefreshTokenKey);
             HttpContext.Response.Cookies.Delete(UserIdKey);
