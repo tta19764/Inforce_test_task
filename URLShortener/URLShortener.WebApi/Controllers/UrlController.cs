@@ -174,6 +174,7 @@ namespace URLShortener.WebApi.Controllers
                 CreatorId = model.CreatorId,
                 CreatedAt = model.CreatedAt,
                 CreatorNickname = model.CreatorNickName,
+                ClickCount = model.ClickCount,
             };
         }
     }

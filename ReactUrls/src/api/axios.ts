@@ -1,6 +1,6 @@
 import axios from "axios";
 import { userStorage } from "../main";
-import type { JwtToken } from "../types/JwtToken";
+import type { RefreshTokenRequest } from "../types/RefreshTokenRequest";
 const BASE_URL = import.meta.env.VITE_BASE_API;
 const AUTH_URL = import.meta.env.VITE_APP_AUTH_ENDPOINT;
 
@@ -22,7 +22,7 @@ axiosPrivate.interceptors.request.use(config => {
     return config;
 });
 
-const refresh = async (token: JwtToken) => {
+const refresh = async (token: RefreshTokenRequest) => {
     console.log("Refreshing token...");
     const response = await axiosPublic.post(AUTH_URL + 'refresh-token', JSON.stringify(token),{
         headers: {
@@ -45,16 +45,22 @@ axiosPrivate.interceptors.response.use(
         }
 
         const token = userStorage.getToken();
+        const user = userStorage.getUser();
 
     if (
         error?.response?.status === 401 &&
         !prevRequest?.sent &&
-        token?.refreshToken
+        token?.refreshToken &&
+        user?.userId
     ) {
         prevRequest.sent = true;
         try{
-            const newToken = await refresh(token);
-            console.log("Token refreshed:", newToken);
+            const refreshTokenRequest: RefreshTokenRequest = {
+                userId: user.userId,
+                refreshToken: token.refreshToken
+            };
+
+            const newToken = await refresh(refreshTokenRequest);
             prevRequest.headers.Authorization = `Bearer ${newToken}`;
             return axiosPrivate(prevRequest);
         } catch (err) {

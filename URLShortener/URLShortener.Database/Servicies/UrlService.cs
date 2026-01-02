@@ -185,6 +185,7 @@ namespace URLShortener.Services.Database.Servicies
                 CreatedAt = entity.CreatedAt,
                 CreatorId = entity.Creator.Id,
                 CreatorNickName = entity.Creator.NickName,
+                ClickCount = entity.ClickCount,
             };
         }
 
