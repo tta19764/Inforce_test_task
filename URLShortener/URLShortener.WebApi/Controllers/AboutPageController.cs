@@ -5,6 +5,7 @@ using System.Security.Claims;
 using URLShortener.Services.Database.Entities;
 using URLShortener.Services.Interfaces;
 using URLShortener.WebApi.Models.Dtos.Read;
+using URLShortener.WebApi.Models.Dtos.Update;
 
 namespace URLShortener.WebApi.Controllers
 {
@@ -45,7 +46,7 @@ namespace URLShortener.WebApi.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult<AboutPageDto>> UpdateAboutPage([FromBody] string content)
+        public async Task<ActionResult<AboutPageDto>> UpdateAboutPage([FromBody] UpdateAboutPageDto aboutPage)
         {
             try
             {
@@ -61,7 +62,7 @@ namespace URLShortener.WebApi.Controllers
                     return Unauthorized(new { message = "Invalid user ID in token" });
                 }
 
-                var result = await this.aboutPageService.UpdateAsync(content, userId);
+                var result = await this.aboutPageService.UpdateAsync(aboutPage.Content, userId);
 
                 if(result == null)
                 {

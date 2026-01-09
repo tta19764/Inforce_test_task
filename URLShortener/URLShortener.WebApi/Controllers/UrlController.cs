@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using URLShortener.Services.Interfaces;
 using URLShortener.Services.Models;
+using URLShortener.WebApi.Models.Dtos.Create;
 using URLShortener.WebApi.Models.Dtos.Read;
 
 namespace URLShortener.WebApi.Controllers
@@ -100,7 +101,7 @@ namespace URLShortener.WebApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<UrlDto>> AddUrl([FromBody] string originalUrl)
+        public async Task<ActionResult<UrlDto>> AddUrl([FromBody] CreateUrlDto url)
         {
             try
             {
@@ -118,7 +119,7 @@ namespace URLShortener.WebApi.Controllers
 
                 var newUrl = new UrlModel()
                 {
-                    OriginalUrl = originalUrl,
+                    OriginalUrl = url.OriginalUrl,
                     CreatorId = userId,
                 };
 

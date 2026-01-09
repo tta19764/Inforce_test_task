@@ -79,7 +79,7 @@ export const urlsServiceDotNet: IUrlsService = {
         try {
             const res = await axiosPrivate.post<Url | null>(
                 URL_URL,
-                url,
+                { originalUrl: url },
                 { signal }
             );
             return res.data;

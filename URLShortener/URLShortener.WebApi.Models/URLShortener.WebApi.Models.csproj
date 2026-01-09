@@ -10,8 +10,4 @@
     <ProjectReference Include="..\URLShortener.Services\URLShortener.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\Update\" />
-  </ItemGroup>
-
 </Project>

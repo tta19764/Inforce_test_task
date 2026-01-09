@@ -13,6 +13,6 @@ namespace URLShortener.Services.Models
 
         public string Nickname { get; set; } = string.Empty;
 
-        public AccountLevel AccountType { get; set; } = AccountLevel.None;
+        public AccountLevel AccountType { get; set; } = AccountLevel.Regular;
     }
 }

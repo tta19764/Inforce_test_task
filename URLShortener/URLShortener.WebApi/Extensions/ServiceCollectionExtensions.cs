@@ -1,5 +1,6 @@
 ﻿
 
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ using URLShortener.Services.Database.Repositories;
 using URLShortener.Services.Database.Servicies;
 using URLShortener.Services.Interfaces;
 using URLShortener.Services.Services;
+using URLShortener.WebApi.Filters;
 
 namespace URLShortener.WebApi.Extensions
 {
@@ -39,7 +41,11 @@ namespace URLShortener.WebApi.Extensions
                 .AddTransient<IAboutPageService, AboutPageService>()
                 .AddTransient<IUrlService, UrlService>();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<FluentValidationFilter>();
+            });
+            services.AddValidatorsFromAssembly(typeof(ServiceCollectionExtensions).Assembly);
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
@@ -142,7 +148,7 @@ namespace URLShortener.WebApi.Extensions
             {
                 options.AddPolicy("FrontendPolicy", policy =>
                     policy
-                        .WithOrigins("http://localhost:5173")  // exact React address
+                        .WithOrigins("http://localhost:5173")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                 );

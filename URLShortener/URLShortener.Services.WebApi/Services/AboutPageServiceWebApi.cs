@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using URLShortener.Services.Interfaces;
 using URLShortener.Services.Models;
 using URLShortener.WebApi.Models.Dtos.Read;
+using URLShortener.WebApi.Models.Dtos.Update;
 
 namespace URLShortener.Services.WebApi.Services
 {
@@ -79,7 +80,7 @@ namespace URLShortener.Services.WebApi.Services
         {
             try
             {
-                using var response = await this.httpClient.PutAsJsonAsync(this.httpClient.BaseAddress, content);
+                using var response = await this.httpClient.PutAsJsonAsync(this.httpClient.BaseAddress, new UpdateAboutPageDto(content));
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -65,7 +65,7 @@ namespace URLShortener.Services.Database.Servicies
         private async Task<User?> ValidateRefreshTokenAsync(int userId, string refreshToken)
         {
             var user = await this.userRepository.GetByIdAsync(userId);
-            if (user is null || user.RefreshToken != refreshToken
+            if (user is null || passwordHasher.Verify(refreshToken, user.RefreshToken!)
                 || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             {
                 return null;
@@ -85,7 +85,7 @@ namespace URLShortener.Services.Database.Servicies
         private async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
         {
             var refreshToken = GenerateRefreshToken();
-            user.RefreshToken = refreshToken;
+            user.RefreshToken = passwordHasher.Hash(refreshToken);
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
             await this.userRepository.UpdateAsync(user);
             return refreshToken;
